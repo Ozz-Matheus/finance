@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Validation\Rule;
 
 class RevenueResource extends Resource
 {
@@ -27,10 +28,20 @@ class RevenueResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('amount')
+                    ->label('Ingreso')
                     ->numeric(),
-                Forms\Components\DatePicker::make('date'),
                 Forms\Components\TextInput::make('extra')
+                    ->label('Extra')
                     ->numeric(),
+                Forms\Components\DatePicker::make('date')
+                    ->label('Mes')
+                    ->displayFormat('F Y')       // muestra solo mes y año
+                    ->format('Y-m-01')           // guarda primer día del mes
+                    ->time(false)                // sin selector de hora
+                    ->native(false)              // usa Flatpickr, no el selector del navegador
+                    ->placeholder('Selecciona mes y año')
+                    ->required()
+                    ->rule(fn ($record) => Rule::unique('revenues', 'date')->ignore($record?->id)),
             ]);
     }
 
@@ -38,13 +49,15 @@ class RevenueResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('formatted_date')
+                    ->label('Fecha')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('amount')
+                    ->label('Ingreso')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('date')
-                    ->date()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('extra')
+                    ->label('Extra')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -56,6 +69,7 @@ class RevenueResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])

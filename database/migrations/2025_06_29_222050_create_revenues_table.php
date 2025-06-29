@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('revenues', function (Blueprint $table) {
             $table->id();
             $table->integer('amount')->nullable();
-            $table->date('date')->nullable();
             $table->integer('extra')->nullable();
+            $table->date('date')->unique();
             $table->timestamps();
         });
     }
