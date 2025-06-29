@@ -14,6 +14,12 @@ class RevenueResource extends Resource
 {
     protected static ?string $model = Revenue::class;
 
+    protected static ?string $modelLabel = 'Ingreso & Extra';
+
+    protected static ?string $pluralModelLabel = 'Ingresos & Extras';
+
+    protected static ?string $navigationLabel = 'Ingresos & Extras';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
