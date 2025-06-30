@@ -13,50 +13,78 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $list = [
-            'Crédito',
-            'Otros',
-            'Belleza',
-            'Ropa',
-            'Transporte',
-            'Salud',
-            'Comida rápida',
-            'Bebidas',
-            'Educación',
-            'Hogar',
-            'Mercado',
-            'Servicios',
-            'Renta',
-        ];
 
-        foreach ($list as $name) {
-            Category::firstOrCreate(['name' => $name]);
-        }
+        // Crear categorías con amount por defecto
+        $categories = collect([
+            ['name' => 'Renta', 'amount' => 2500],
+            ['name' => 'Servicios', 'amount' => 4500],
+            ['name' => 'Mercado', 'amount' => 12000],
+            ['name' => 'Hogar', 'amount' => 500],
+            ['name' => 'Educación', 'amount' => 1000],
+            ['name' => 'Bebidas', 'amount' => 750],
+            ['name' => 'Comida rápida', 'amount' => 750],
+            ['name' => 'Salud', 'amount' => 1000],
+            ['name' => 'Transporte', 'amount' => 500],
+            ['name' => 'Ropa', 'amount' => 500],
+            ['name' => 'Belleza', 'amount' => 500],
+            ['name' => 'Crédito', 'amount' => 3000],
+        ])->map(fn ($data) => Category::create($data));
 
-        // Crear 5 categorías
+        // Crear las categorías
         $categories = Category::all();
 
-        // Por cada categoría, crea budgets y bills
-        foreach ($categories as $category) {
-            Budget::factory(2)->create([
-                'category_id' => $category->id,
-            ]);
+        // Por cada categoría, crea budgets
+        // foreach ($categories as $category) {
+        //     Budget::factory(2)->create([
+        //         'category_id' => $category->id,
+        //     ]);
+        // }
 
-            Bill::factory(3)->create([
-                'category_id' => $category->id,
-            ]);
-        }
+        // Crear un Revenue para junio 2025
 
-        // Crear ingresos
-        Revenue::factory(10)->create();
+        // $revenue = Revenue::create([
+        //     'date' => '2025-06-01',
+        //     'amount' => 37000,
+        //     'extra' => 5000,
+        //     'saving' => 8000,
+        // ]);
 
-        // Prueba
+        // Crear algunos gastos para ese revenue
+
+        // Bill::create([
+        //     'category_id' => $categories->firstWhere('name', 'Hogar')->id,
+        //     'revenue_id' => $revenue->id,
+        //     'name' => 'Renta',
+        //     'cost' => 2500,
+        //     'type' => 'Gasto',
+        //     'date' => '2025-06-02',
+        // ]);
+
+        // Bill::create([
+        //     'category_id' => $categories->firstWhere('name', 'Mercado')->id,
+        //     'revenue_id' => $revenue->id,
+        //     'name' => 'Supermercado',
+        //     'cost' => 1200,
+        //     'type' => 'Gasto',
+        //     'date' => '2025-06-05',
+        // ]);
+
+        // Bill::create([
+        //     'category_id' => $categories->firstWhere('name', 'Salud')->id,
+        //     'revenue_id' => $revenue->id,
+        //     'name' => 'Consulta médica',
+        //     'cost' => 600,
+        //     'type' => 'Extra',
+        //     'date' => '2025-06-10',
+        // ]);
+
+        // Admin
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'a@f.mx',
             'password' => bcrypt('a@f.mx'), // o Hash::make()
         ]);
 
-        User::factory(5)->create();
+        //User::factory(5)->create();
     }
 }
