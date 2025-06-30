@@ -11,7 +11,7 @@ class Revenue extends Model
     use HasFactory, HasFormattedDate;
 
     protected $fillable = [
-        'amount', 'date', 'extra','saving',
+        'amount', 'date', 'extra', 'saving',
     ];
 
     protected $casts = [

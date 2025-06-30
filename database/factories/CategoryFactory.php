@@ -13,6 +13,7 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
+            'amount' => $this->faker->numberBetween(500, 10000),
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\RevenueResource\Pages;
 
 use App\Filament\Resources\RevenueResource;
+use App\Filament\Resources\RevenueResource\Widgets\ResumenFinancieroWidget;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -14,6 +15,13 @@ class EditRevenue extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            ResumenFinancieroWidget::class,
         ];
     }
 }

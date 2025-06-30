@@ -1,5 +1,6 @@
-<x-filament::page>
-    <h2 class="text-xl font-bold">GASTOS - {{ ucfirst($this->formattedDate) }}</h2>
+<x-filament::widget>
+<x-filament::card>
+    <h2 class="text-xl font-bold my-2">GASTOS - {{ ucfirst($this->formattedDate) }}</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         @foreach ($this->groupedCategories as $category => $bills)
@@ -34,15 +35,7 @@
         @endforeach
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="border p-4 rounded-xl shadow">
-             <p><strong>Ingreso:</strong> ${{ $this->gastos  }}</p>
-             <p><strong>Gastos:</strong> ${{ $this->gastos  }}</p>
-             <p><strong>Total:</strong> ${{ $this->gastos  }}</p>
-        </div>
-    </div>
-
-    <hr class="my-6 border-dashed">
+    <hr class="my-4 border-dashed">
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <x-filament::card>
@@ -75,4 +68,5 @@
             <p><strong>Balance:</strong> ${{ number_format($record->saving - $this->gastoAhorros, 2) }}</p>
         </x-filament::card>
     </div>
-</x-filament::page>
+</x-filament::card>
+</x-filament::widget>

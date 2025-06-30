@@ -27,7 +27,7 @@ class Category extends Model
     {
         return $this->budgets()
             ->where('category_id', $this->id)
-            ->where('date', $date)
+            ->whereDate('date', $date)
             ->value('amount') ?? 0;
     }
 }

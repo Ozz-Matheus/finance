@@ -15,6 +15,7 @@ class RevenueFactory extends Factory
             'amount' => $this->faker->numberBetween(5000, 15000),
             'date' => $this->faker->date(),
             'extra' => $this->faker->boolean() ? $this->faker->numberBetween(100, 2000) : null,
+            'saving' => $this->faker->boolean() ? $this->faker->numberBetween(100, 2000) : null,
         ];
     }
 }
