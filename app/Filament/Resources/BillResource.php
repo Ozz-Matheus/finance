@@ -14,6 +14,12 @@ class BillResource extends Resource
 {
     protected static ?string $model = Bill::class;
 
+    protected static ?string $modelLabel = 'Gasto';
+
+    protected static ?string $pluralModelLabel = 'Gastos';
+
+    protected static ?string $navigationLabel = 'Gastos';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -21,17 +27,29 @@ class BillResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Nombre')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('cost')
+                    ->label('Valor')
                     ->numeric()
                     ->prefix('$'),
                 Forms\Components\DatePicker::make('date')
+                    ->label('Fecha')
                     ->required(),
-                Forms\Components\TextInput::make('type')
+                Forms\Components\Select::make('type')
+                    ->label('Fecha')
+                    ->options([
+                        'Sueldo' => 'Gasto',
+                        'Extra' => 'Gasto Extra',
+                    ])
+                    ->native(false)
                     ->required(),
-                Forms\Components\TextInput::make('category_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('category_id')
+                    ->label('Cajita')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
             ]);
     }
 
@@ -40,16 +58,20 @@ class BillResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('cost')
-                    ->money()
+                    ->label('Valor')
+                    ->money('MXN')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('date')
+                    ->label('Fecha')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type'),
-                Tables\Columns\TextColumn::make('category_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('type')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('Cajita')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -60,6 +82,7 @@ class BillResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])

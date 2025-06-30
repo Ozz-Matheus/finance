@@ -14,6 +14,12 @@ class BudgetResource extends Resource
 {
     protected static ?string $model = Budget::class;
 
+    protected static ?string $modelLabel = 'Presupuesto';
+
+    protected static ?string $pluralModelLabel = 'Presupuestos';
+
+    protected static ?string $navigationLabel = 'Presupuestos';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -34,13 +40,15 @@ class BudgetResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('formatted_date')
+                    ->label('Fecha')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('amount')
+                    ->label('Cantidad')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('date')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('category_id')
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('Cajita')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

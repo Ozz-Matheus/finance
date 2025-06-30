@@ -13,8 +13,28 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        $list = [
+            'Crédito',
+            'Otros',
+            'Belleza',
+            'Ropa',
+            'Transporte',
+            'Salud',
+            'Comida rápida',
+            'Bebidas',
+            'Educación',
+            'Hogar',
+            'Mercado',
+            'Servicios',
+            'Renta',
+        ];
+
+        foreach ($list as $name) {
+            Category::firstOrCreate(['name' => $name]);
+        }
+
         // Crear 5 categorías
-        $categories = Category::factory(5)->create();
+        $categories = Category::all();
 
         // Por cada categoría, crea budgets y bills
         foreach ($categories as $category) {
