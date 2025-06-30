@@ -33,6 +33,9 @@ class CategoryResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('amount')
+                    ->numeric()
+                    ->prefix('$'),
             ]);
     }
 
@@ -42,6 +45,11 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('amount')
+                    ->label('Cantidad')
+                    ->numeric()
+                    ->money('MXN')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
