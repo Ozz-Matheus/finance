@@ -34,6 +34,7 @@ class BillsRelationManager extends RelationManager
                     ->options([
                         'Gasto' => 'Gasto',
                         'Extra' => 'Gasto Extra',
+                        'Ahorro' => 'Gasto del Ahorro',
                     ])
                     ->native(false)
                     ->required(),
@@ -81,7 +82,7 @@ class BillsRelationManager extends RelationManager
 
             ])
             ->headerActions([
-                //Tables\Actions\CreateAction::make(),
+                // Tables\Actions\CreateAction::make(),
                 Tables\Actions\Action::make('create')
                     ->label('Crear Gasto')
                     ->button()

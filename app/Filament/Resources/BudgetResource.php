@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BudgetResource\Pages;
 use App\Models\Budget;
-use App\Rules\UniqueRevenueMonth;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -20,6 +19,10 @@ class BudgetResource extends Resource
     protected static ?string $pluralModelLabel = 'Presupuestos';
 
     protected static ?string $navigationLabel = 'Presupuestos';
+
+    protected static ?string $navigationGroup = 'Gestión del Sistema';
+
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationIcon = 'heroicon-o-adjustments-vertical';
 
@@ -42,8 +45,7 @@ class BudgetResource extends Resource
                     ->format('Y-m-01')
                     ->native(false)
                     ->time(false)
-                    ->required()
-                    ->rule(fn ($record) => new UniqueRevenueMonth($record?->id)),
+                    ->required(),
             ]);
     }
 
@@ -61,7 +63,8 @@ class BudgetResource extends Resource
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Cajita')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

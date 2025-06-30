@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('amount')->nullable();
             $table->integer('extra')->nullable();
+            $table->integer('saving')->nullable();
             $table->date('date')->unique();
             $table->timestamps();
         });

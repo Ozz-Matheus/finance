@@ -20,6 +20,10 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationLabel = 'Cajas';
 
+    protected static ?string $navigationGroup = 'Gestión del Sistema';
+
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     public static function form(Form $form): Form

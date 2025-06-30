@@ -22,6 +22,10 @@ class RevenueResource extends Resource
 
     protected static ?string $navigationLabel = 'Ingresos & Extras';
 
+    protected static ?string $navigationGroup = 'Sueldo';
+
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $navigationIcon = 'heroicon-o-arrow-trending-up';
 
     public static function form(Form $form): Form
@@ -34,6 +38,10 @@ class RevenueResource extends Resource
                     ->prefix('$'),
                 Forms\Components\TextInput::make('extra')
                     ->label('Extra')
+                    ->numeric()
+                    ->prefix('$'),
+                Forms\Components\TextInput::make('saving')
+                    ->label('Ahorro')
                     ->numeric()
                     ->prefix('$'),
                 Forms\Components\DatePicker::make('date')
@@ -64,6 +72,11 @@ class RevenueResource extends Resource
                     ->numeric()
                     ->money('MXN')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('saving')
+                    ->label('Ahorro')
+                    ->numeric()
+                    ->money('MXN')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -79,6 +92,7 @@ class RevenueResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

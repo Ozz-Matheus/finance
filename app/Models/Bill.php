@@ -49,5 +49,7 @@ class Bill extends Model
 
     const TYPE_GASTO = 'Gasto';
 
+    const TYPE_AHORRO = 'Ahorro';
+
     const TYPE_EXTRA = 'Extra';
 }

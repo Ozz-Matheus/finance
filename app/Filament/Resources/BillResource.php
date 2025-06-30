@@ -20,6 +20,10 @@ class BillResource extends Resource
 
     protected static ?string $navigationLabel = 'Gastos';
 
+    protected static ?string $navigationGroup = 'Gestión del Sistema';
+
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
     public static function form(Form $form): Form
@@ -41,6 +45,7 @@ class BillResource extends Resource
                     ->options([
                         'Gasto' => 'Gasto',
                         'Extra' => 'Gasto Extra',
+                        'Ahorro' => 'Gasto del Ahorro',
                     ])
                     ->native(false)
                     ->required(),

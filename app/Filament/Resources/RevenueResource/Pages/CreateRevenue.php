@@ -18,5 +18,4 @@ class CreateRevenue extends CreateRecord
     {
         return false;
     }
-
 }

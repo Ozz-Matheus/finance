@@ -22,4 +22,12 @@ class Category extends Model
     {
         return $this->hasMany(Bill::class);
     }
+
+    public function getBudgetAmount($date): float
+    {
+        return $this->budgets()
+            ->where('category_id', $this->id)
+            ->where('date', $date)
+            ->value('amount') ?? 0;
+    }
 }

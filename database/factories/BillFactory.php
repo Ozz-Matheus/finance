@@ -16,7 +16,7 @@ class BillFactory extends Factory
             'name' => $this->faker->sentence(2),
             'cost' => $this->faker->numberBetween(100, 5000),
             'date' => $this->faker->date(),
-            'type' => $this->faker->randomElement(['Gasto', 'Extra']),
+            'type' => $this->faker->randomElement(['Gasto', 'Extra', 'Ahorro']),
             'category_id' => Category::factory(),
         ];
     }
