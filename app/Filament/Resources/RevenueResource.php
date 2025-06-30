@@ -9,7 +9,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Validation\Rule;
+use App\Rules\UniqueRevenueMonth;
+
 
 class RevenueResource extends Resource
 {
@@ -35,13 +36,13 @@ class RevenueResource extends Resource
                     ->numeric(),
                 Forms\Components\DatePicker::make('date')
                     ->label('Mes')
-                    ->displayFormat('F Y')       // muestra solo mes y año
-                    ->format('Y-m-01')           // guarda primer día del mes
-                    ->time(false)                // sin selector de hora
-                    ->native(false)              // usa Flatpickr, no el selector del navegador
-                    ->placeholder('Selecciona mes y año')
+                    ->displayFormat('F Y')
+                    ->format('Y-m-01')
+                    ->native(false)
+                    ->time(false)
                     ->required()
-                    ->rule(fn ($record) => Rule::unique('revenues', 'date')->ignore($record?->id)),
+                    ->rule(fn ($record) => new UniqueRevenueMonth($record?->id)),
+
             ]);
     }
 
