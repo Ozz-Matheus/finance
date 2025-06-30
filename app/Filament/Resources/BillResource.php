@@ -37,9 +37,9 @@ class BillResource extends Resource
                     ->label('Fecha')
                     ->required(),
                 Forms\Components\Select::make('type')
-                    ->label('Fecha')
+                    ->label('Tipo')
                     ->options([
-                        'Sueldo' => 'Gasto',
+                        'Gasto' => 'Gasto',
                         'Extra' => 'Gasto Extra',
                     ])
                     ->native(false)

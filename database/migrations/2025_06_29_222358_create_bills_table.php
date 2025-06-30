@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->integer('cost')->nullable();
             $table->date('date');
-            $table->enum('type', ['Sueldo', 'Extra']);
+            $table->enum('type', ['Gasto', 'Extra']);
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -22,7 +22,7 @@ class Bill extends Model
         return $this->belongsTo(Category::class);
     }
 
-    const TYPE_SUELDO = 'Sueldo';
+    const TYPE_GASTO = 'Gasto';
 
     const TYPE_EXTRA = 'Extra';
 }
