@@ -85,6 +85,6 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('a@f.mx'), // o Hash::make()
         ]);
 
-        //User::factory(5)->create();
+        // User::factory(5)->create();
     }
 }

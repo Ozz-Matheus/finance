@@ -82,7 +82,6 @@ class BillsRelationManager extends RelationManager
 
             ])
             ->headerActions([
-                // Tables\Actions\CreateAction::make(),
                 Tables\Actions\Action::make('create')
                     ->label('Crear Gasto')
                     ->button()
