@@ -8,4 +8,14 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateBill extends CreateRecord
 {
     protected static string $resource = BillResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
+    public static function canCreateAnother(): bool
+    {
+        return false;
+    }
 }

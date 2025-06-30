@@ -14,11 +14,11 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $modelLabel = 'Cajita';
+    protected static ?string $modelLabel = 'Caja';
 
-    protected static ?string $pluralModelLabel = 'Cajitas';
+    protected static ?string $pluralModelLabel = 'Cajas';
 
-    protected static ?string $navigationLabel = 'Cajitas';
+    protected static ?string $navigationLabel = 'Cajas';
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
@@ -47,6 +47,7 @@ class CategoryResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('name', 'asc')
             ->filters([
                 //
             ])

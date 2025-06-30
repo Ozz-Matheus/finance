@@ -2,12 +2,12 @@
 
 namespace App\Filament\Resources\RevenueResource\RelationManagers;
 
+use App\Filament\Resources\BillResource;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use App\Filament\Resources\BillResource;
 
 class BillsRelationManager extends RelationManager
 {
@@ -50,22 +50,35 @@ class BillsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Concepto'),
-                Tables\Columns\TextColumn::make('cost')->label('Valor')
-                    ->label('Monto')
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Concepto')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('cost')
+                    ->label('Valor')
                     ->prefix('$')
                     ->money('MXN')
-                    ->summarize(Tables\Columns\Summarizers\Sum::make()),
+                    ->sortable()
+                    ->summarize(Tables\Columns\Summarizers\Sum::make()->label('Total')->money('MXN')),
                 Tables\Columns\TextColumn::make('date')
-                    ->date()
                     ->label('Fecha')
-                    ->searchable(),
+                    ->date()
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('type')
                     ->label('Tipo')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Cajita')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
             ])
             ->headerActions([
                 //Tables\Actions\CreateAction::make(),

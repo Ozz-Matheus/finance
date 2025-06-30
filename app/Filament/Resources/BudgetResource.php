@@ -4,12 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BudgetResource\Pages;
 use App\Models\Budget;
+use App\Rules\UniqueRevenueMonth;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use App\Rules\UniqueRevenueMonth;
 
 class BudgetResource extends Resource
 {
@@ -71,6 +71,7 @@ class BudgetResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])
