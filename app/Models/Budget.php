@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasFormattedDate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 class Budget extends Model
 {
-    use HasFactory;
+    use HasFactory, HasFormattedDate;
 
     protected $fillable = [
         'amount', 'date', 'category_id',
@@ -21,16 +21,5 @@ class Budget extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Accesores / Métodos útiles
-    |--------------------------------------------------------------------------
-    */
-
-    public function getFormattedDateAttribute(): string
-    {
-        return ucfirst(Carbon::parse($this->date)->translatedFormat('F \d\e Y'));
     }
 }

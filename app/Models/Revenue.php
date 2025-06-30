@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasFormattedDate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 class Revenue extends Model
 {
-    use HasFactory;
+    use HasFactory, HasFormattedDate;
 
     protected $fillable = [
         'amount', 'date', 'extra',
@@ -18,14 +18,8 @@ class Revenue extends Model
         'date' => 'date',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Accesores / Métodos útiles
-    |--------------------------------------------------------------------------
-    */
-
-    public function getFormattedDateAttribute(): string
+    public function bills()
     {
-        return ucfirst(Carbon::parse($this->date)->translatedFormat('F \d\e Y'));
+        return $this->hasMany(Bill::class);
     }
 }

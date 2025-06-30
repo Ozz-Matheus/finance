@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Rules\UniqueRevenueMonth;
 
 class BudgetResource extends Resource
 {
@@ -20,19 +21,29 @@ class BudgetResource extends Resource
 
     protected static ?string $navigationLabel = 'Presupuestos';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-adjustments-vertical';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('amount')
-                    ->numeric(),
-                Forms\Components\DatePicker::make('date')
+                Forms\Components\Select::make('category_id')
+                    ->label('Cajita')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload()
                     ->required(),
-                Forms\Components\TextInput::make('category_id')
+                Forms\Components\TextInput::make('amount')
+                    ->numeric()
+                    ->prefix('$'),
+                Forms\Components\DatePicker::make('date')
+                    ->label('Mes')
+                    ->displayFormat('F Y')
+                    ->format('Y-m-01')
+                    ->native(false)
+                    ->time(false)
                     ->required()
-                    ->numeric(),
+                    ->rule(fn ($record) => new UniqueRevenueMonth($record?->id)),
             ]);
     }
 
@@ -41,11 +52,11 @@ class BudgetResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('formatted_date')
-                    ->label('Fecha')
-                    ->sortable(),
+                    ->label('Fecha'),
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Cantidad')
                     ->numeric()
+                    ->money('MXN')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Cajita')

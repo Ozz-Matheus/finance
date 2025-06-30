@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RevenueResource\Pages;
+use App\Filament\Resources\RevenueResource\RelationManagers\BillsRelationManager;
 use App\Models\Revenue;
 use App\Rules\UniqueRevenueMonth;
 use Filament\Forms;
@@ -21,7 +22,7 @@ class RevenueResource extends Resource
 
     protected static ?string $navigationLabel = 'Ingresos & Extras';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-trending-up';
 
     public static function form(Form $form): Form
     {
@@ -29,10 +30,12 @@ class RevenueResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('amount')
                     ->label('Ingreso')
-                    ->numeric(),
+                    ->numeric()
+                    ->prefix('$'),
                 Forms\Components\TextInput::make('extra')
                     ->label('Extra')
-                    ->numeric(),
+                    ->numeric()
+                    ->prefix('$'),
                 Forms\Components\DatePicker::make('date')
                     ->label('Mes')
                     ->displayFormat('F Y')
@@ -50,15 +53,16 @@ class RevenueResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('formatted_date')
-                    ->label('Fecha')
-                    ->sortable(),
+                    ->label('Fecha'),
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Ingreso')
                     ->numeric()
+                    ->money('MXN')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('extra')
                     ->label('Extra')
                     ->numeric()
+                    ->money('MXN')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -74,7 +78,7 @@ class RevenueResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -87,6 +91,7 @@ class RevenueResource extends Resource
     {
         return [
             //
+            BillsRelationManager::class,
         ];
     }
 
@@ -96,6 +101,7 @@ class RevenueResource extends Resource
             'index' => Pages\ListRevenues::route('/'),
             'create' => Pages\CreateRevenue::route('/create'),
             'edit' => Pages\EditRevenue::route('/{record}/edit'),
+            'view' => Pages\ViewRevenue::route('/{record}'),
         ];
     }
 }

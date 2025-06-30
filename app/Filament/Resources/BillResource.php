@@ -20,14 +20,14 @@ class BillResource extends Resource
 
     protected static ?string $navigationLabel = 'Gastos';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Nombre')
+                    ->label('Concepto')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('cost')
                     ->label('Valor')
@@ -58,17 +58,20 @@ class BillResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nombre')
+                    ->label('Concepto')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('cost')
                     ->label('Valor')
+                    ->prefix('$')
                     ->money('MXN')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('date')
                     ->label('Fecha')
                     ->date()
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->label('Tipo')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Cajita')
