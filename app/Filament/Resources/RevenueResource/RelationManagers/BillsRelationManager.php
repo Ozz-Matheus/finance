@@ -13,6 +13,10 @@ class BillsRelationManager extends RelationManager
 {
     protected static string $relationship = 'bills';
 
+    protected static ?string $modelLabel = 'Gasto';
+
+    protected static ?string $pluralModelLabel = 'Gastos';
+
     protected static ?string $title = 'Gastos';
 
     public function form(Form $form): Form
@@ -23,11 +27,12 @@ class BillsRelationManager extends RelationManager
                     ->label('Concepto')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('cost')
-                    ->label('Valor')
+                    ->label('Cantidad')
                     ->numeric()
                     ->prefix('$'),
                 Forms\Components\DatePicker::make('date')
                     ->label('Fecha')
+                    ->native(false)
                     ->required(),
                 Forms\Components\Select::make('type')
                     ->label('Tipo')
@@ -55,7 +60,7 @@ class BillsRelationManager extends RelationManager
                     ->label('Concepto')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('cost')
-                    ->label('Valor')
+                    ->label('Cantidad')
                     ->prefix('$')
                     ->money('MXN')
                     ->sortable()
@@ -67,16 +72,20 @@ class BillsRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
                     ->label('Tipo')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Categoría')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Creado en')
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Actualizado en')
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 

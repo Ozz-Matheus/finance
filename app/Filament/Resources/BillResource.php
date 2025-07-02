@@ -78,9 +78,11 @@ class BillResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
                     ->label('Tipo')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Categoría')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado en')
