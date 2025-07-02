@@ -55,7 +55,7 @@ class BudgetResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('formatted_date')
-                    ->label('Fecha'),
+                    ->label('Mes'),
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Cantidad')
                     ->numeric()
