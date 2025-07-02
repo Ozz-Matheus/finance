@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         ])->map(fn ($data) => Category::create($data));
 
         // Crear las categorías
-        $categories = Category::all();
+        // $categories = Category::all();
 
         // Por cada categoría, crea budgets
         // foreach ($categories as $category) {

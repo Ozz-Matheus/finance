@@ -16,7 +16,7 @@ class ResumenFinancieroWidget extends Widget
 
     public function getFormattedDateProperty(): string
     {
-        return ucfirst(Carbon::parse($this->record->date)->translatedFormat('F Y'));
+        return ucfirst(Carbon::parse($this->record->date)->translatedFormat('F \d\e Y'));
     }
 
     public function getGroupedCategoriesProperty()
