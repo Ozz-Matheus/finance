@@ -31,7 +31,7 @@ class BudgetResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('category_id')
-                    ->label('Cajita')
+                    ->label('Categoría')
                     ->relationship('category', 'name')
                     ->searchable()
                     ->preload()
@@ -62,7 +62,7 @@ class BudgetResource extends Resource
                     ->money('MXN')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
-                    ->label('Cajita')
+                    ->label('Categoría')
                     ->numeric()
                     ->sortable()
                     ->searchable(),

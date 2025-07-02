@@ -14,11 +14,11 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $modelLabel = 'Caja';
+    protected static ?string $modelLabel = 'Categoría';
 
-    protected static ?string $pluralModelLabel = 'Cajas';
+    protected static ?string $pluralModelLabel = 'Categorías';
 
-    protected static ?string $navigationLabel = 'Cajas';
+    protected static ?string $navigationLabel = 'Categorías';
 
     protected static ?string $navigationGroup = 'Gestión del Sistema';
 

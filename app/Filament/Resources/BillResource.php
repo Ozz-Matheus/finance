@@ -51,7 +51,7 @@ class BillResource extends Resource
                     ->native(false)
                     ->required(),
                 Forms\Components\Select::make('category_id')
-                    ->label('Cajita')
+                    ->label('Categoría')
                     ->relationship('category', 'name')
                     ->searchable()
                     ->preload()
@@ -80,7 +80,7 @@ class BillResource extends Resource
                     ->label('Tipo')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
-                    ->label('Cajita')
+                    ->label('Categoría')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado en')
