@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\RevenueResource\Widgets;
 
 use App\Models\Revenue;
+use Carbon\Carbon;
 use Filament\Widgets\Widget;
 
 class ResumenFinancieroWidget extends Widget
@@ -15,7 +16,7 @@ class ResumenFinancieroWidget extends Widget
 
     public function getFormattedDateProperty(): string
     {
-        return \Carbon\Carbon::parse($this->record->date)->translatedFormat('F Y');
+        return ucfirst(Carbon::parse($this->record->date)->translatedFormat('F Y'));
     }
 
     public function getGroupedCategoriesProperty()
