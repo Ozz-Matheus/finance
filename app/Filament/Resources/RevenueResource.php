@@ -35,15 +35,18 @@ class RevenueResource extends Resource
                 Forms\Components\TextInput::make('amount')
                     ->label('Ingreso')
                     ->numeric()
-                    ->prefix('$'),
+                    ->prefix('$')
+                    ->columnSpan(1),
                 Forms\Components\TextInput::make('extra')
                     ->label('Extra')
                     ->numeric()
-                    ->prefix('$'),
+                    ->prefix('$')
+                    ->columnSpan(1),
                 Forms\Components\TextInput::make('saving')
                     ->label('Ahorro')
                     ->numeric()
-                    ->prefix('$'),
+                    ->prefix('$')
+                    ->columnSpan(1),
                 Forms\Components\DatePicker::make('date')
                     ->label('Mes')
                     ->displayFormat('F Y')
@@ -51,7 +54,8 @@ class RevenueResource extends Resource
                     ->native(false)
                     ->time(false)
                     ->required()
-                    ->rule(fn ($record) => new UniqueRevenueMonth($record?->id)),
+                    ->rule(fn ($record) => new UniqueRevenueMonth($record?->id))
+                    ->visible(fn (string $context) => $context === 'create'),
                 Forms\Components\TextInput::make('gastos')
                     ->placeholder(fn ($livewire) => number_format(
                         $livewire->gastos ?? $livewire->record->bills()
@@ -59,6 +63,7 @@ class RevenueResource extends Resource
                             ->sum('cost'),
                         2
                     ))
+                    ->prefix('$')
                     ->disabled()
                     ->dehydrated(false)
                     ->visible(fn (string $context) => $context === 'view'),
@@ -67,11 +72,12 @@ class RevenueResource extends Resource
                         ($livewire->record->amount ?? 0) - ($livewire->gastos ?? $livewire->record->bills()->where('type', 'Gasto')->sum('cost')),
                         2
                     ))
+                    ->prefix('$')
                     ->disabled()
                     ->dehydrated(false)
                     ->visible(fn (string $context) => $context === 'view'),
 
-            ]);
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
