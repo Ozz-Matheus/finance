@@ -34,11 +34,12 @@ class BillResource extends Resource
                     ->label('Concepto')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('cost')
-                    ->label('Valor')
+                    ->label('Cantidad')
                     ->numeric()
                     ->prefix('$'),
                 Forms\Components\DatePicker::make('date')
                     ->label('Fecha')
+                    ->native(false)
                     ->required(),
                 Forms\Components\Select::make('type')
                     ->label('Tipo')
@@ -66,7 +67,7 @@ class BillResource extends Resource
                     ->label('Concepto')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('cost')
-                    ->label('Valor')
+                    ->label('Cantidad')
                     ->prefix('$')
                     ->money('MXN')
                     ->sortable(),
@@ -82,11 +83,13 @@ class BillResource extends Resource
                     ->label('Cajita')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Creado en')
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Actualizado en')
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

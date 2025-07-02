@@ -22,7 +22,7 @@ class BudgetResource extends Resource
 
     protected static ?string $navigationGroup = 'Gestión del Sistema';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 4;
 
     protected static ?string $navigationIcon = 'heroicon-o-adjustments-vertical';
 
@@ -37,6 +37,7 @@ class BudgetResource extends Resource
                     ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('amount')
+                    ->label('Cantidad')
                     ->numeric()
                     ->prefix('$'),
                 Forms\Components\DatePicker::make('date')
@@ -66,13 +67,16 @@ class BudgetResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Creado en')
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Actualizado en')
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
             ])
             ->defaultSort('id', 'desc')
             ->filters([

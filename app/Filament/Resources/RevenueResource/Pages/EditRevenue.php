@@ -24,4 +24,9 @@ class EditRevenue extends EditRecord
             ResumenFinancieroWidget::class,
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

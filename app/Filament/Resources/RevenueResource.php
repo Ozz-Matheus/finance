@@ -83,24 +83,23 @@ class RevenueResource extends Resource
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Ingreso')
                     ->numeric()
-                    ->money('MXN')
-                    ->sortable(),
+                    ->money('MXN'),
                 Tables\Columns\TextColumn::make('extra')
                     ->label('Extra')
                     ->numeric()
-                    ->money('MXN')
-                    ->sortable(),
+                    ->money('MXN'),
                 Tables\Columns\TextColumn::make('saving')
                     ->label('Ahorro')
                     ->numeric()
-                    ->money('MXN')
-                    ->sortable(),
+                    ->money('MXN'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Creado en')
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Actualizado en')
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
