@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Bill;
-use App\Models\Budget;
 use App\Models\Category;
 use App\Models\Revenue;
 use App\Models\User;
@@ -29,16 +28,6 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Belleza', 'amount' => 500],
             ['name' => 'Crédito', 'amount' => 3000],
         ])->map(fn ($data) => Category::create($data));
-
-        // Crear las categorías
-        // $categories = Category::all();
-
-        // Por cada categoría, crea budgets
-        // foreach ($categories as $category) {
-        //     Budget::factory(2)->create([
-        //         'category_id' => $category->id,
-        //     ]);
-        // }
 
         // Crear un Revenue para junio 2025
 

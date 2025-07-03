@@ -1,6 +1,6 @@
 <x-filament::widget>
 <x-filament::card>
-    <h2 class="text-xl font-bold my-2">GASTOS - {{ $this->formattedDate }}</h2>
+    <h2 class="text-xl font-bold my-2">{{ $this->formattedDate }}</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         @foreach ($this->groupedCategories as $category => $bills)

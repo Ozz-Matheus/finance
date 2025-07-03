@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('budgets', function (Blueprint $table) {
             $table->id();
-            $table->integer('amount')->nullable();
+            $table->unsignedBigInteger('category_id');
+            $table->integer('amount');
             $table->date('date');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
+
+            // 🔐 Evita duplicados por mes y categoría
+            $table->unique(['category_id', 'date']);
         });
     }
 
