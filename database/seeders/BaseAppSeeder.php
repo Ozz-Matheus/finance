@@ -33,7 +33,7 @@ class BaseAppSeeder extends Seeder
         /* Crear un Revenue para junio 2025 */
 
         $revenue = Revenue::create([
-            'date' => '2025-06-01',
+            'date' => '2025-07-01',
             'amount' => 37000,
             'extra' => 5000,
             'saving' => 8000,
@@ -47,7 +47,7 @@ class BaseAppSeeder extends Seeder
             'name' => 'Casa',
             'cost' => 2500,
             'type' => 'Gasto',
-            'date' => '2025-06-02',
+            'date' => '2025-07-02',
         ]);
 
         Bill::create([
@@ -56,7 +56,7 @@ class BaseAppSeeder extends Seeder
             'name' => 'Supermercado',
             'cost' => 1300,
             'type' => 'Gasto',
-            'date' => '2025-06-05',
+            'date' => '2025-07-05',
         ]);
 
         Bill::create([
@@ -65,7 +65,7 @@ class BaseAppSeeder extends Seeder
             'name' => 'Consulta médica',
             'cost' => 60,
             'type' => 'Gasto',
-            'date' => '2025-06-10',
+            'date' => '2025-07-10',
         ]);
 
         Bill::create([
@@ -74,7 +74,7 @@ class BaseAppSeeder extends Seeder
             'name' => 'Medicina',
             'cost' => 400,
             'type' => 'Extra',
-            'date' => '2025-06-10',
+            'date' => '2025-07-10',
         ]);
 
         Bill::create([
@@ -83,7 +83,7 @@ class BaseAppSeeder extends Seeder
             'name' => 'Dominos',
             'cost' => 300,
             'type' => 'Extra',
-            'date' => '2025-06-15',
+            'date' => '2025-07-15',
         ]);
 
         Bill::create([
@@ -92,7 +92,7 @@ class BaseAppSeeder extends Seeder
             'name' => 'Teclado',
             'cost' => 3000,
             'type' => 'Ahorro',
-            'date' => '2025-06-21',
+            'date' => '2025-07-21',
         ]);
 
         Bill::create([
@@ -101,7 +101,7 @@ class BaseAppSeeder extends Seeder
             'name' => 'Luz',
             'cost' => 600,
             'type' => 'Gasto',
-            'date' => '2025-06-1',
+            'date' => '2025-07-1',
         ]);
 
         Bill::create([
@@ -110,7 +110,7 @@ class BaseAppSeeder extends Seeder
             'name' => 'Agua',
             'cost' => 300,
             'type' => 'Gasto',
-            'date' => '2025-06-2',
+            'date' => '2025-07-2',
         ]);
     }
 }
