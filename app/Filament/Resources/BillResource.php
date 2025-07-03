@@ -95,7 +95,7 @@ class BillResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('id', 'desc')
+            ->defaultSort('date', 'desc')
             ->filters([
                 //
             ])

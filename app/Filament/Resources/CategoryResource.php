@@ -47,6 +47,7 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nombre')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Cantidad')

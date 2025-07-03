@@ -17,17 +17,17 @@ class RolesSeeder extends Seeder
         $basicRole = Role::create(['name' => 'panel_user']);
 
         $superAdmin = new User;
-        $superAdmin->name = 'Ozzy';
-        $superAdmin->email = 'montesinos.quintana@gmail.com';
-        $superAdmin->password = bcrypt('montesinos.quintana@gmail.com');
+        $superAdmin->name = 'Super Admin';
+        $superAdmin->email = 's@f.mx';
+        $superAdmin->password = bcrypt('s@f.mx');
         $superAdmin->save();
 
         $superAdmin->assignRole($superAdminRole);
 
         $basic = new User;
-        $basic->name = 'Paty';
-        $basic->email = 'dg.patriciavm@gmail.com';
-        $basic->password = bcrypt('dg.patriciavm@gmail.com');
+        $basic->name = 'User';
+        $basic->email = 'u@f.mx';
+        $basic->password = bcrypt('u@f.mx');
         $basic->save();
 
         $basic->assignRole($basicRole);

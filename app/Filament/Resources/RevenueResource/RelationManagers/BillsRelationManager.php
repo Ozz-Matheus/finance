@@ -90,6 +90,7 @@ class BillsRelationManager extends RelationManager
                     ->toggleable(isToggledHiddenByDefault: true),
 
             ])
+            ->defaultSort('date', 'desc')
             ->headerActions([
                 Tables\Actions\Action::make('create')
                     ->label('Crear Gasto')

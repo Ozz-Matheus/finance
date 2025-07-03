@@ -8,7 +8,9 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Support\Carbon;
 
 class BudgetResource extends Resource
 {
@@ -80,7 +82,27 @@ class BudgetResource extends Resource
             ])
             ->defaultSort('id', 'desc')
             ->filters([
-                //
+
+                Filter::make('month_year')
+                    ->form([
+                        Forms\Components\TextInput::make('month_year')
+                            ->label('Mes y año (MM/YYYY)')
+                            ->placeholder('07/2025'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        if (empty($data['month_year'])) {
+                            return;
+                        }
+
+                        try {
+                            $date = Carbon::createFromFormat('m/Y', $data['month_year']);
+                            $query->whereMonth('date', $date->month)
+                                ->whereYear('date', $date->year);
+                        } catch (\Exception $e) {
+                            // Formato inválido: no aplicar filtro
+                        }
+                    }),
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
