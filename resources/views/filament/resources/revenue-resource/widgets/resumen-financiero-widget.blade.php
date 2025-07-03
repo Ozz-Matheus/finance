@@ -39,7 +39,15 @@
 
     <hr class="my-4 border-dashed">
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <x-filament::card>
+            <h3 class="font-bold">Gastos</h3>
+            <p class="mt-2"><strong>Total:</strong> ${{ number_format($this->gastos, 2) }}</p>
+            <p><strong>Ingreso:</strong> ${{ number_format($record->amount, 2) }}</p>
+            <p><strong>Balance:</strong> ${{ number_format($record->amount - $this->gastos, 2) }}</p>
+        </x-filament::card>
+
         <x-filament::card>
             <h3 class="font-bold">Gastos Extras</h3>
 

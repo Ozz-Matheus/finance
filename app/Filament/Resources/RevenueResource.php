@@ -58,26 +58,6 @@ class RevenueResource extends Resource
                     ->required()
                     ->rule(fn ($record) => new UniqueRevenueMonth($record?->id))
                     ->visible(fn (string $context) => $context === 'create'),
-                Forms\Components\TextInput::make('gastos')
-                    ->placeholder(fn ($livewire) => number_format(
-                        $livewire->gastos ?? $livewire->record->bills()
-                            ->where('type', 'Gasto')
-                            ->sum('cost'),
-                        2
-                    ))
-                    ->prefix('$')
-                    ->disabled()
-                    ->dehydrated(false)
-                    ->visible(fn (string $context) => $context === 'view'),
-                Forms\Components\TextInput::make('total')
-                    ->placeholder(fn ($livewire) => number_format(
-                        ($livewire->record->amount ?? 0) - ($livewire->gastos ?? $livewire->record->bills()->where('type', 'Gasto')->sum('cost')),
-                        2
-                    ))
-                    ->prefix('$')
-                    ->disabled()
-                    ->dehydrated(false)
-                    ->visible(fn (string $context) => $context === 'view'),
 
             ])->columns(3);
     }
