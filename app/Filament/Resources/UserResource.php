@@ -43,10 +43,32 @@ class UserResource extends Resource
                     ->label('Correo electrónico verificado en')
                     ->native(false),
                 Forms\Components\TextInput::make('password')
-                    ->label('Contraseña')
+                    ->label(__('Contraseña'))
                     ->password()
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->nullable()
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (string $context) => $context === 'create')
+                    ->helperText(
+                        fn (string $context) => $context === 'edit'
+                            ? 'Déjelo en blanco si no desea cambiar su contraseña.'
+                            : null
+                    ),
+                Forms\Components\Select::make('roles')
+                    ->label(__('Roles'))
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable()
+                    ->options(function () {
+                        $roles = \Spatie\Permission\Models\Role::pluck('name', 'id');
+
+                        if (! auth()->user()->hasRole('super_admin')) {
+                            $roles = $roles->reject(fn ($name) => $name === 'super_admin');
+                        }
+
+                        return $roles;
+                    }),
             ]);
     }
 
@@ -60,6 +82,10 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label('Correo electrónico')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label(__('Capacidades'))
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->label('Correo electrónico verificado en')
                     ->dateTime()
