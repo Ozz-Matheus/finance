@@ -9,7 +9,7 @@ class GastoPorCategoriaChart extends BarChartWidget
 {
     protected static ?string $heading = 'Top 5 categorías de gasto';
 
-    protected static ?int $sort = 0;
+    protected static ?int $sort = 1;
 
     protected function getData(): array
     {
