@@ -8,7 +8,7 @@ use Filament\Widgets\StatsOverviewWidget\Card;
 
 class PresupuestoRestanteWidget extends BaseWidget
 {
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 4;
 
     protected function getCards(): array
     {
@@ -26,8 +26,8 @@ class PresupuestoRestanteWidget extends BaseWidget
             $spent = $category->bills->sum('cost');
             $remaining = max($budgetAmount - $spent, 0);
 
-            $cards[] = Card::make($category->name, '$'.number_format($remaining, 2))
-                ->description('Gastado: $'.number_format($spent, 2).' de $'.number_format($budgetAmount, 2))
+            $cards[] = Card::make($category->name, 'Disponible: $'.number_format($remaining, 2))
+                ->description('Total: $'.number_format($spent, 2).' de el Presupuesto: $'.number_format($budgetAmount, 2))
                 ->color($remaining > 0 ? 'success' : 'danger');
         }
 

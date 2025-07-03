@@ -9,7 +9,7 @@ use Filament\Widgets\StatsOverviewWidget\Card;
 
 class IngresosVsGastosWidget extends BaseWidget
 {
-    protected static ?int $sort = 3;
+    protected static ?int $sort = 1;
 
     protected function getCards(): array
     {
@@ -24,11 +24,12 @@ class IngresosVsGastosWidget extends BaseWidget
                 ->description('Este mes')
                 ->color('success'),
 
-            Card::make('Gastos', '$'.number_format($gastos, 2))
+            Card::make('Total', '$'.number_format($gastos, 2))
                 ->description('Este mes')
                 ->color('danger'),
 
-            Card::make('Diferencia', '$'.number_format($ingresos - $gastos, 2))
+            Card::make('Balance', '$'.number_format($ingresos - $gastos, 2))
+                ->description('Este mes')
                 ->color($ingresos - $gastos >= 0 ? 'success' : 'danger'),
         ];
     }
