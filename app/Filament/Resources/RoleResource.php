@@ -23,7 +23,7 @@ class RoleResource extends Resource implements HasShieldPermissions
 {
     use HasShieldFormComponents;
 
-    protected static ?string $navigationGroup = 'Roles Management';
+    protected static ?string $navigationGroup = 'Gestión de roles';
 
     protected static ?int $navigationSort = 6;
 
