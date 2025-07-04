@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Carbon;
+use App\Rules\RevenueExistsForMonth;
 
 class BillResource extends Resource
 {
@@ -42,25 +43,8 @@ class BillResource extends Resource
                     ->label('Fecha')
                     ->native(false)
                     ->required()
-                    ->rules(function ($get) {
-                        return [
-                            function ($attribute, $value, $fail) {
-                                try {
-                                    $date = Carbon::parse($value);
-                                } catch (\Exception $e) {
-                                    return $fail('Fecha inválida.');
-                                }
-
-                                $revenue = \App\Models\Revenue::whereYear('date', $date->year)
-                                    ->whereMonth('date', $date->month)
-                                    ->first();
-
-                                if (! $revenue) {
-                                    $fail('Primero debes registrar un ingreso para este mes.');
-                                }
-                            },
-                        ];
-                    }),
+                    ->default(now())
+                    ->rules([new RevenueExistsForMonth]),
                 Forms\Components\Select::make('type')
                     ->label('Tipo')
                     ->options([
