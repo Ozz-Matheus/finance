@@ -13,9 +13,4 @@ class CreateBill extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
-
-    public static function canCreateAnother(): bool
-    {
-        return false;
-    }
 }
