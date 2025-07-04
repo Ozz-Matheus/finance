@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('cost')->nullable();
             $table->date('date');
             $table->enum('type', ['Gasto', 'Extra', 'Ahorro']);
-            $table->foreignId('revenue_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('revenue_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

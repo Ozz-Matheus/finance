@@ -2,9 +2,9 @@
 
 namespace App\Rules;
 
+use App\Models\Revenue;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Carbon;
-use App\Models\Revenue;
 
 class RevenueExistsForMonth implements Rule
 {
