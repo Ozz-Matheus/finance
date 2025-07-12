@@ -6,7 +6,7 @@
         @foreach ($this->groupedCategories as $category => $bills)
             <div class="border p-4 rounded-xl shadow">
                 <h3 class="font-semibold">{{ $category }}</h3>
-                <p class="text-sm text-gray-500">
+                <p class="text-sm">
                     Presupuesto: ${{ number_format($bills->first()->category->getBudgetAmount($record->date), 2) }}
                 </p>
 
@@ -29,9 +29,9 @@
                 @endphp
                 <p><strong>Total:</strong> ${{ number_format($total, 2) }}</p>
                 @if ($diff >= 0)
-                    <p><strong>Disponible:</strong> ${{ number_format($diff, 2) }}</p>
+                    <p class="fi-wi-stats-overview-stat-description text-sm fi-color-custom text-custom-600 dark:text-custom-400 fi-color-success" style="--c-400:var(--success-400);--c-600:var(--success-600);"><strong>Disponible:</strong> ${{ number_format($diff, 2) }}</p>
                 @else
-                    <p><strong>Sobrepaso:</strong> ${{ number_format(abs($diff), 2) }}</p>
+                    <p class="fi-wi-stats-overview-stat-description text-sm fi-color-custom text-custom-600 dark:text-custom-400 fi-color-danger" style="--c-400:var(--danger-400);--c-600:var(--danger-600);"><strong>Sobrepaso:</strong> ${{ number_format(abs($diff), 2) }}</p>
                 @endif
             </div>
         @endforeach

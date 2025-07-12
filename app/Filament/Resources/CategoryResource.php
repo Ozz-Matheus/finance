@@ -53,7 +53,8 @@ class CategoryResource extends Resource
                     ->label('Cantidad')
                     ->numeric()
                     ->money('MXN')
-                    ->sortable(),
+                    ->sortable()
+                    ->summarize(Tables\Columns\Summarizers\Sum::make()->label('Total')->money('MXN')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado en')
                     ->since()
