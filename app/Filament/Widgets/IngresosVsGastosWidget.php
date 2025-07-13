@@ -29,7 +29,7 @@ class IngresosVsGastosWidget extends BaseWidget
                 ->description('Este mes')
                 ->color('success')
                 ->url(RevenueResource::getUrl('view', ['record' => $currentRevenue]))
-                ->openUrlInNewTab()
+                ->openUrlInNewTab(false)
                 ->color('primary')
                 ->extraAttributes(['class' => 'cursor-pointer']),
 
