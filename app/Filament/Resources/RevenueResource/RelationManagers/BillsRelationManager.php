@@ -7,6 +7,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class BillsRelationManager extends RelationManager
@@ -91,6 +92,13 @@ class BillsRelationManager extends RelationManager
 
             ])
             ->defaultSort('date', 'desc')
+            ->filters([
+                SelectFilter::make('category_id')
+                    ->label('Categoría')
+                    ->relationship('category', 'name')
+                    ->preload()
+                    ->searchable(),
+            ])
             ->headerActions([
                 Tables\Actions\Action::make('create')
                     ->label('Crear Gasto')
