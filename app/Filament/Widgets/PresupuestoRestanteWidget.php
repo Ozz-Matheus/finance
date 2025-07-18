@@ -26,8 +26,10 @@ class PresupuestoRestanteWidget extends BaseWidget
             $spent = $category->bills->sum('cost');
             $remaining = max($budgetAmount - $spent, 0);
 
-            $cards[] = Card::make($category->name, 'Disponible: $'.number_format($remaining, 2))
-                ->description('Total: $'.number_format($spent, 2).' de el Presupuesto: $'.number_format($budgetAmount, 2))
+            $result = $budgetAmount - 500;
+
+            $cards[] = Card::make('Categoría : ', $category->name)
+                ->description($remaining > 0 ? 'Disponible: $'.number_format($remaining, 2) : 'No disponible')
                 ->color($remaining > 0 ? 'success' : 'danger');
         }
 
