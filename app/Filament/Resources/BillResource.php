@@ -60,6 +60,10 @@ class BillResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required(),
+                Forms\Components\Select::make('payment_method_id')
+                    ->label('Método de pago')
+                    ->relationship('paymentMethod', 'name')
+                    ->required(),
             ]);
     }
 
@@ -88,6 +92,10 @@ class BillResource extends Resource
                     ->label('Categoría')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('paymentMethod.name')
+                    ->label('Método de pago')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado en')
                     ->since()

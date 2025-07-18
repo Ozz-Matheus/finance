@@ -47,6 +47,11 @@ class Bill extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
+
     const TYPE_GASTO = 'Gasto';
 
     const TYPE_AHORRO = 'Ahorro';

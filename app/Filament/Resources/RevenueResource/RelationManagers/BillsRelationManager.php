@@ -79,6 +79,10 @@ class BillsRelationManager extends RelationManager
                     ->label('Categoría')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('paymentMethod.name')
+                    ->label('Método de pago')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado en')
                     ->since()
