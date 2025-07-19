@@ -57,12 +57,12 @@ class BillResource extends Resource
                 Forms\Components\Select::make('category_id')
                     ->label('Categoría')
                     ->relationship('category', 'name')
-                    ->searchable()
-                    ->preload()
+                    ->native(false)
                     ->required(),
                 Forms\Components\Select::make('payment_method_id')
                     ->label('Método de pago')
                     ->relationship('paymentMethod', 'name')
+                    ->native(false)
                     ->required(),
             ]);
     }

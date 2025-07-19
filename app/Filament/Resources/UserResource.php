@@ -58,8 +58,6 @@ class UserResource extends Resource
                     ->label(__('Roles'))
                     ->relationship('roles', 'name')
                     ->multiple()
-                    ->preload()
-                    ->searchable()
                     ->options(function () {
                         $roles = \Spatie\Permission\Models\Role::pluck('name', 'id');
 

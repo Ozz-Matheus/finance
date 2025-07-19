@@ -35,8 +35,7 @@ class BudgetResource extends Resource
                 Forms\Components\Select::make('category_id')
                     ->label('Categoría')
                     ->relationship('category', 'name')
-                    ->searchable()
-                    ->preload()
+                    ->native(false)
                     ->required(),
                 Forms\Components\TextInput::make('amount')
                     ->label('Cantidad')
