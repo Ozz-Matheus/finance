@@ -81,6 +81,8 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Correo electrónico')
+                    ->copyable()
+                    ->copyMessage('Correo electrónico copiado al portapapeles')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('roles.name')
                     ->label(__('Capacidades'))
@@ -89,7 +91,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->label('Correo electrónico verificado en')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado en')
                     ->since()

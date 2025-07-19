@@ -16,6 +16,7 @@ class Bill extends Model
         'type',
         'category_id',
         'revenue_id',
+        'payment_method_id',
     ];
 
     protected $casts = [

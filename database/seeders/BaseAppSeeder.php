@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Bill;
 use App\Models\Category;
+use App\Models\PaymentMethod;
 use App\Models\Revenue;
 use Illuminate\Database\Seeder;
 
@@ -30,7 +31,7 @@ class BaseAppSeeder extends Seeder
             ['name' => 'Crédito', 'amount' => 3000],
         ])->map(fn ($data) => Category::create($data));
 
-        /* Crear un Revenue para junio 2025 */
+        /* Crear un Revenue para Julio 2025 */
 
         $revenue = Revenue::create([
             'date' => '2025-07-01',
@@ -39,10 +40,18 @@ class BaseAppSeeder extends Seeder
             'saving' => 8000,
         ]);
 
+        /* Metodos de pago */
+        $method = collect([
+            ['name' => 'Efectivo'],
+            ['name' => 'Débito'],
+            ['name' => 'Crédito'],
+        ])->map(fn ($data) => PaymentMethod::create($data));
+
         /* Crear algunos gastos para ese revenue */
 
         Bill::create([
             'category_id' => $categories->firstWhere('name', 'Renta')->id,
+            'payment_method_id' => $method->firstWhere('name', 'Débito')->id,
             'revenue_id' => $revenue->id,
             'name' => 'Casa',
             'cost' => 2500,
@@ -53,6 +62,7 @@ class BaseAppSeeder extends Seeder
         Bill::create([
             'category_id' => $categories->firstWhere('name', 'Mercado')->id,
             'revenue_id' => $revenue->id,
+            'payment_method_id' => $method->firstWhere('name', 'Débito')->id,
             'name' => 'Supermercado',
             'cost' => 1300,
             'type' => 'Gasto',
@@ -61,6 +71,7 @@ class BaseAppSeeder extends Seeder
 
         Bill::create([
             'category_id' => $categories->firstWhere('name', 'Salud')->id,
+            'payment_method_id' => $method->firstWhere('name', 'Efectivo')->id,
             'revenue_id' => $revenue->id,
             'name' => 'Consulta médica',
             'cost' => 60,
@@ -70,6 +81,7 @@ class BaseAppSeeder extends Seeder
 
         Bill::create([
             'category_id' => $categories->firstWhere('name', 'Salud')->id,
+            'payment_method_id' => $method->firstWhere('name', 'Efectivo')->id,
             'revenue_id' => $revenue->id,
             'name' => 'Medicina',
             'cost' => 400,
@@ -79,6 +91,7 @@ class BaseAppSeeder extends Seeder
 
         Bill::create([
             'category_id' => $categories->firstWhere('name', 'Comida rápida')->id,
+            'payment_method_id' => $method->firstWhere('name', 'Crédito')->id,
             'revenue_id' => $revenue->id,
             'name' => 'Dominos',
             'cost' => 300,
@@ -88,6 +101,7 @@ class BaseAppSeeder extends Seeder
 
         Bill::create([
             'category_id' => $categories->firstWhere('name', 'Hogar')->id,
+            'payment_method_id' => $method->firstWhere('name', 'Débito')->id,
             'revenue_id' => $revenue->id,
             'name' => 'Teclado',
             'cost' => 3000,
@@ -97,6 +111,7 @@ class BaseAppSeeder extends Seeder
 
         Bill::create([
             'category_id' => $categories->firstWhere('name', 'Servicios')->id,
+            'payment_method_id' => $method->firstWhere('name', 'Efectivo')->id,
             'revenue_id' => $revenue->id,
             'name' => 'Luz',
             'cost' => 600,
@@ -106,6 +121,7 @@ class BaseAppSeeder extends Seeder
 
         Bill::create([
             'category_id' => $categories->firstWhere('name', 'Servicios')->id,
+            'payment_method_id' => $method->firstWhere('name', 'Efectivo')->id,
             'revenue_id' => $revenue->id,
             'name' => 'Agua',
             'cost' => 300,

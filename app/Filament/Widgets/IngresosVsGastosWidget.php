@@ -24,11 +24,13 @@ class IngresosVsGastosWidget extends BaseWidget
             ->whereYear('date', now()->year)
             ->first();
 
+        $dynamicLink = $currentRevenue ? RevenueResource::getUrl('view', ['record' => $currentRevenue]) : RevenueResource::getUrl('index');
+
         return [
             Card::make('Ingresos', '$'.number_format($ingresos, 2))
                 ->description('Este mes')
                 ->color('success')
-                ->url(RevenueResource::getUrl('view', ['record' => $currentRevenue]))
+                ->url($dynamicLink)
                 ->openUrlInNewTab(false)
                 ->color('primary')
                 ->extraAttributes(['class' => 'cursor-pointer']),

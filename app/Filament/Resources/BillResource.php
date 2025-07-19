@@ -114,6 +114,11 @@ class BillResource extends Resource
                     ->relationship('category', 'name')
                     ->preload()
                     ->searchable(),
+                SelectFilter::make('payment_method_id')
+                    ->label('Método de pago')
+                    ->relationship('paymentMethod', 'name')
+                    ->preload()
+                    ->searchable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

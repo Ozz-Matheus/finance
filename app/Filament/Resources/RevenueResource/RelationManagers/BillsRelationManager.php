@@ -102,6 +102,11 @@ class BillsRelationManager extends RelationManager
                     ->relationship('category', 'name')
                     ->preload()
                     ->searchable(),
+                SelectFilter::make('payment_method_id')
+                    ->label('Método de pago')
+                    ->relationship('paymentMethod', 'name')
+                    ->preload()
+                    ->searchable(),
             ])
             ->headerActions([
                 Tables\Actions\Action::make('create')
