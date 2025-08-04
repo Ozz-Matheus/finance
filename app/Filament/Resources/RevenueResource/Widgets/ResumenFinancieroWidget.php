@@ -52,4 +52,16 @@ class ResumenFinancieroWidget extends Widget
     {
         return $this->ahorros->sum('cost');
     }
+
+    public function getTopCategoriasDelMesProperty()
+    {
+        return $this->record->bills()
+            ->with('category')
+            ->where('type', 'Gasto')
+            ->get()
+            ->groupBy(fn ($bill) => $bill->category->name ?? 'Sin categoría')
+            ->map(fn ($items) => $items->sum('cost'))
+            ->sortDesc()
+            ->take(5);
+    }
 }

@@ -1,4 +1,16 @@
 <x-filament::widget>
+
+<x-filament::section heading="Top 5 categorías del mes" class="gap-4 mx-6 my-4">
+    <ul class="space-x-1 text-sm text-gray-600 dark:text-gray-300">
+        @foreach ($this->top_categorias_del_mes as $categoria => $total)
+            <li class="flex justify-between">
+                <span><strong>{{ $categoria }}</strong></span>
+                <span class="font-medium text-gray-900 dark:text-white">${{ number_format($total, 2) }}</span>
+            </li>
+        @endforeach
+    </ul>
+</x-filament::section>
+
 <x-filament::card>
     <h2 class="text-xl font-bold my-2">{{ $this->formattedDate }}</h2>
 
