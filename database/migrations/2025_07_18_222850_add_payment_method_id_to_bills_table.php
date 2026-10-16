@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('bills', function (Blueprint $table) {
-            $table->foreignId('payment_method_id')->constrained()->after('category_id');
-        });
+        // Some existing installations already have this column, even if the
+        // migration is not recorded in the migrations table.
+        if (! Schema::hasColumn('bills', 'payment_method_id')) {
+            Schema::table('bills', function (Blueprint $table) {
+                $table->foreignId('payment_method_id')->constrained()->after('category_id');
+            });
+        }
     }
 
     /**
