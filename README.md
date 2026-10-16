@@ -29,6 +29,12 @@
 
 ---
 
+## 🔌 Importación de gastos mediante API
+
+La rama `feature/api-importacion-gastos` incorpora una API autenticada para previsualizar e importar movimientos bancarios sin modificar Filament. Consulta [la documentación de instalación, seguridad y endpoints](docs/api-import.md).
+
+---
+
 ## ⚙️ Instalación
 
 ```bash
