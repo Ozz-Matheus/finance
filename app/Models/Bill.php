@@ -17,10 +17,13 @@ class Bill extends Model
         'category_id',
         'revenue_id',
         'payment_method_id',
+        'source',
+        'external_id',
     ];
 
     protected $casts = [
         'date' => 'date',
+        'cost' => 'decimal:2',
     ];
 
     protected static function booted(): void
