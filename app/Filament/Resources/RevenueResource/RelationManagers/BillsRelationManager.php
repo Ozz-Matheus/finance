@@ -3,6 +3,9 @@
 namespace App\Filament\Resources\RevenueResource\RelationManagers;
 
 use App\Filament\Resources\BillResource;
+use App\Models\Bill;
+use App\Services\BillCsvService;
+use Illuminate\Support\Facades\Gate;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -109,6 +112,37 @@ class BillsRelationManager extends RelationManager
                     ->searchable(),
             ])
             ->headerActions([
+                Tables\Actions\Action::make('importCsv')
+                    ->label('Importar CSV del mes')
+                    ->icon('heroicon-o-document-arrow-up')
+                    ->url(fn (): string => BillResource::getUrl('import', [
+                        'revenue_id' => $this->getOwnerRecord()->getKey(),
+                    ]))
+                    ->visible(fn (): bool => auth()->user()?->can('create', Bill::class) ?? false),
+
+                Tables\Actions\Action::make('exportCsv')
+                    ->label('Exportar CSV del mes')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->visible(fn (): bool => auth()->user()?->can('viewAny', Bill::class) ?? false)
+                    ->action(function () {
+                        Gate::authorize('viewAny', Bill::class);
+                        $revenue = $this->getOwnerRecord();
+                        $query = Bill::query()->where('revenue_id', $revenue->getKey());
+                        $filename = 'finance-gastos-'.$revenue->date->format('Y-m').'.csv';
+
+                        return response()->streamDownload(function () use ($query): void {
+                            $output = fopen('php://output', 'wb');
+
+                            try {
+                                app(BillCsvService::class)->write($output, $query);
+                            } finally {
+                                fclose($output);
+                            }
+                        }, $filename, [
+                            'Content-Type' => 'text/csv; charset=UTF-8',
+                        ]);
+                    }),
+
                 Tables\Actions\Action::make('create')
                     ->label('Crear Gasto')
                     ->button()

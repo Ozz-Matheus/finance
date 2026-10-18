@@ -4,6 +4,7 @@ namespace App\Filament\Resources\BillResource\Pages;
 
 use App\Filament\Resources\BillResource;
 use App\Models\Bill;
+use App\Models\Revenue;
 use App\Services\BillCsvService;
 use App\Services\BillImportService;
 use Filament\Actions;
@@ -24,6 +25,8 @@ class ImportBills extends Page
 
     protected static ?string $title = 'Importar gastos CSV';
 
+    public ?int $revenueId = null;
+    public ?string $revenuePeriod = null;
     public ?string $csvPath = null;
     public ?string $csvHash = null;
     public ?array $previewSummary = null;
@@ -33,6 +36,12 @@ class ImportBills extends Page
     public function mount(): void
     {
         Gate::authorize('create', Bill::class);
+
+        if (request()->query('revenue_id') !== null) {
+            $revenue = Revenue::query()->findOrFail(request()->integer('revenue_id'));
+            $this->revenueId = $revenue->getKey();
+            $this->revenuePeriod = $revenue->date->format('Y-m');
+        }
     }
 
     protected function getHeaderActions(): array
@@ -77,6 +86,7 @@ class ImportBills extends Page
         try {
             $fullPath = $this->privatePath($path);
             $items = app(BillCsvService::class)->read($fullPath);
+            $this->validateRevenuePeriod($items);
             $preview = app(BillImportService::class)->preview($items);
 
             $this->csvPath = $path;
@@ -132,6 +142,7 @@ class ImportBills extends Page
             }
 
             $items = app(BillCsvService::class)->read($path);
+            $this->validateRevenuePeriod($items);
             $result = app(BillImportService::class)->import($items);
 
             if ($result['blocked']) {
@@ -164,6 +175,31 @@ class ImportBills extends Page
                 ->send();
 
             $this->clearPreview();
+        }
+    }
+
+    /**
+     * When launched from a Revenue, reject the entire CSV if even one row
+     * belongs to another month. The global Bills importer remains unrestricted.
+     */
+    private function validateRevenuePeriod(array $items): void
+    {
+        if ($this->revenueId === null) {
+            return;
+        }
+
+        $revenue = Revenue::query()->findOrFail($this->revenueId);
+        $period = $revenue->date->format('Y-m');
+
+        foreach ($items as $index => $item) {
+            if (substr($item['date'], 0, 7) !== $period) {
+                $line = $index + 2;
+
+                throw new InvalidArgumentException(
+                    "Fila {$line}: fecha {$item['date']} fuera del mes {$period}. ".
+                    'No se importó ningún movimiento.'
+                );
+            }
         }
     }
 

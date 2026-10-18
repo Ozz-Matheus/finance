@@ -6,6 +6,7 @@ use App\Filament\Resources\BillResource;
 use App\Models\Bill;
 use App\Models\Category;
 use App\Models\PaymentMethod;
+use App\Models\Revenue;
 use App\Services\BillCsvService;
 use Filament\Actions;
 use Filament\Forms\Components\DatePicker;
@@ -33,8 +34,19 @@ class ListBills extends ListRecords
                 ->icon('heroicon-o-document-arrow-down')
                 ->visible(fn (): bool => auth()->user()?->can('viewAny', Bill::class) ?? false)
                 ->form([
-                    DatePicker::make('from')->label('Desde')->native(false),
-                    DatePicker::make('to')->label('Hasta')->native(false)->afterOrEqual('from'),
+                    Select::make('period')
+                        ->label('Mes y año')
+                        ->placeholder('Todos los meses')
+                        ->options(fn (): array => Revenue::query()
+                            ->orderByDesc('date')
+                            ->get(['date'])
+                            ->mapWithKeys(fn (Revenue $revenue): array => [
+                                $revenue->date->format('Y-m') => ucfirst($revenue->date->locale('es')->translatedFormat('F Y')),
+                            ])
+                            ->all())
+                        ->searchable(),
+                    DatePicker::make('from')->label('Desde (opcional)')->native(false),
+                    DatePicker::make('to')->label('Hasta (opcional)')->native(false)->afterOrEqual('from'),
                     Select::make('category_id')
                         ->label('Categoría')
                         ->options(Category::query()->orderBy('name')->pluck('name', 'id'))
@@ -47,11 +59,17 @@ class ListBills extends ListRecords
                 ->action(function (array $data) {
                     Gate::authorize('viewAny', Bill::class);
 
+                    $period = $data['period'] ?? null;
                     $query = Bill::query()
+                        ->when($period, fn ($query, $value) => $query
+                            ->whereYear('date', substr($value, 0, 4))
+                            ->whereMonth('date', substr($value, 5, 2)))
                         ->when($data['from'] ?? null, fn ($query, $date) => $query->whereDate('date', '>=', $date))
                         ->when($data['to'] ?? null, fn ($query, $date) => $query->whereDate('date', '<=', $date))
                         ->when($data['category_id'] ?? null, fn ($query, $id) => $query->where('category_id', $id))
                         ->when($data['payment_method_id'] ?? null, fn ($query, $id) => $query->where('payment_method_id', $id));
+
+                    $filename = 'finance-gastos-'.($period ?: now()->format('Ymd-His')).'.csv';
 
                     return response()->streamDownload(function () use ($query): void {
                         $output = fopen('php://output', 'wb');
@@ -61,7 +79,7 @@ class ListBills extends ListRecords
                         } finally {
                             fclose($output);
                         }
-                    }, 'finance-gastos-'.now()->format('Ymd-His').'.csv', [
+                    }, $filename, [
                         'Content-Type' => 'text/csv; charset=UTF-8',
                     ]);
                 }),

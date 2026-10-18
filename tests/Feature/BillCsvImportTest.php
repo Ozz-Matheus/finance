@@ -130,6 +130,44 @@ class BillCsvImportTest extends TestCase
         }
     }
 
+    public function test_export_is_not_paginated_and_can_be_limited_to_revenue_month(): void
+    {
+        $september = $this->sample();
+        $service = app(BillImportService::class);
+        $service->import([$september]);
+
+        $anotherSeptember = array_merge($september, [
+            'external_id' => 'sep-2026-002',
+            'date' => '2026-09-22',
+        ]);
+        $service->import([$anotherSeptember]);
+
+        Revenue::create(['date' => '2026-10-01', 'amount' => 12000]);
+        $october = array_merge($september, [
+            'external_id' => 'oct-2026-001',
+            'date' => '2026-10-02',
+        ]);
+        $service->import([$october]);
+
+        $septemberRevenue = Revenue::query()->whereYear('date', 2026)->whereMonth('date', 9)->firstOrFail();
+        $stream = fopen('php://temp', 'w+');
+
+        try {
+            app(BillCsvService::class)->write(
+                $stream,
+                Bill::query()->where('revenue_id', $septemberRevenue->id)
+            );
+            rewind($stream);
+            $csv = stream_get_contents($stream);
+            $this->assertStringContainsString('sep-2026-001', $csv);
+            $this->assertStringContainsString('sep-2026-002', $csv);
+            $this->assertStringNotContainsString('oct-2026-001', $csv);
+            $this->assertCount(3, explode("\n", trim($csv)));
+        } finally {
+            fclose($stream);
+        }
+    }
+
     public function test_export_preserves_identifiers_and_round_trips(): void
     {
         $item = $this->sample();

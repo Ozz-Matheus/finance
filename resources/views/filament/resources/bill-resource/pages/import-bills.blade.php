@@ -1,4 +1,20 @@
 <x-filament-panels::page>
+    @if ($revenuePeriod !== null)
+        <x-filament::section heading="Importar gastos de {{ $revenuePeriod }}">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                Esta importación está limitada a los gastos de {{ $revenuePeriod }}.
+                Si alguna fila pertenece a otro mes, el archivo completo será rechazado.
+            </p>
+        </x-filament::section>
+    @else
+        <x-filament::section heading="Importación general">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                Se importarán todos los meses presentes en el archivo CSV.
+                Para trabajar con un solo mes, utiliza Importar CSV del mes desde Ingresos &amp; Extras.
+            </p>
+        </x-filament::section>
+    @endif
+
     <x-filament::section>
         <p class="text-sm text-gray-600 dark:text-gray-400">
             Sube un CSV con estas columnas en este orden:

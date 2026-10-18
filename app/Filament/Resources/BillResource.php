@@ -4,12 +4,15 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BillResource\Pages;
 use App\Models\Bill;
+use App\Models\Revenue;
 use App\Rules\RevenueExistsForMonth;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Table;
 
 class BillResource extends Resource
@@ -109,6 +112,25 @@ class BillResource extends Resource
             ])
             ->defaultSort('date', 'desc')
             ->filters([
+                Filter::make('period')
+                    ->label('Mes y año')
+                    ->form([
+                        Forms\Components\Select::make('period')
+                            ->label('Mes y año')
+                            ->placeholder('Todos los meses')
+                            ->options(fn (): array => Revenue::query()
+                                ->orderByDesc('date')
+                                ->get(['date'])
+                                ->mapWithKeys(fn (Revenue $revenue): array => [
+                                    $revenue->date->format('Y-m') => ucfirst($revenue->date->locale('es')->translatedFormat('F Y')),
+                                ])
+                                ->all())
+                            ->searchable(),
+                    ])
+                    ->query(fn (Builder $query, array $data): Builder => $query
+                        ->when($data['period'] ?? null, fn (Builder $query, string $value): Builder => $query
+                            ->whereYear('date', substr($value, 0, 4))
+                            ->whereMonth('date', substr($value, 5, 2)))),
                 SelectFilter::make('category_id')
                     ->label('Categoría')
                     ->relationship('category', 'name')
