@@ -141,6 +141,7 @@ class BillResource extends Resource
     {
         return [
             'index' => Pages\ListBills::route('/'),
+            'import' => Pages\ImportBills::route('/import'),
             'create' => Pages\CreateBill::route('/create'),
             'edit' => Pages\EditBill::route('/{record}/edit'),
         ];

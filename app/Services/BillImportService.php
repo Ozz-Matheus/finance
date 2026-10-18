@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Bill;
 use App\Models\Revenue;
+use Illuminate\Support\Facades\DB;
 
 class BillImportService
 {
@@ -65,6 +66,50 @@ class BillImportService
         }
 
         return ['summary' => $summary, 'items' => $results];
+    }
+
+    public function import(array $items): array
+    {
+        return DB::transaction(function () use ($items): array {
+            $plan = $this->preview($items);
+
+            foreach (['conflict', 'missing_revenue', 'repeated_in_batch'] as $status) {
+                if ($plan['summary'][$status] > 0) {
+                    return ['blocked' => true, 'plan' => $plan];
+                }
+            }
+
+            $created = 0;
+            foreach ($plan['items'] as $row) {
+                if ($row['status'] === 'duplicate') {
+                    continue;
+                }
+                $item = $items[$row['index']];
+                $month = substr($item['date'], 0, 7);
+                $revenueId = Revenue::query()
+                    ->whereYear('date', substr($month, 0, 4))
+                    ->whereMonth('date', substr($month, 5, 2))
+                    ->value('id');
+                Bill::query()->create([
+                    'source' => $item['source'],
+                    'external_id' => $item['external_id'],
+                    'name' => $item['name'],
+                    'cost' => $item['cost'],
+                    'date' => $item['date'],
+                    'type' => $item['type'],
+                    'revenue_id' => $revenueId,
+                    'category_id' => $item['category_id'],
+                    'payment_method_id' => $item['payment_method_id'],
+                ]);
+                $created++;
+            }
+
+            return [
+                'blocked' => false,
+                'created' => $created,
+                'skipped_duplicates' => $plan['summary']['duplicate'],
+            ];
+        });
     }
 
     private function sameMovement(Bill $bill, array $item): bool
